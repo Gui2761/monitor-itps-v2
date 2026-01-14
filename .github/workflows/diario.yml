@@ -2,7 +2,8 @@ name: Monitoramento Diário ITPS
 
 on:
   schedule:
-    - cron: '0 10-22 * * *' # Roda de hora em hora (horário comercial)
+    - cron: '0 10,13,19 * * 1-5'    # Roda às 07h, 10h e 16h
+    - cron: '15 16 * * 1-5'
   workflow_dispatch: # Permite rodar manualmente clicando no botão
 
 jobs:
