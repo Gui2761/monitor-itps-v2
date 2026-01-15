@@ -26,7 +26,8 @@ REPO_NAME = os.environ.get("GITHUB_REPOSITORY")
 LISTA_DESTINATARIOS = [
     "anacarolina.mota@itps.se.gov.br",
     "guilhermesilva2761@gmail.com",
-    "geaad@itps.se.gov.br"
+    "geaad@itps.se.gov.br",
+    "geconf@itps.se.gov.br"
 ]
 
 def get_driver():
