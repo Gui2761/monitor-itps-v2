@@ -29,7 +29,8 @@ LISTA_DESTINATARIOS = [
     "geaad@itps.se.gov.br",
     "geconf@itps.se.gov.br",
     "gpresi@itps.se.gov.br",
-    "gerh@itps.se.gov.br"
+    "gerh@itps.se.gov.br",
+    "lucia.macedo@itps.se.gov.br"
 ]
 
 def get_driver():
