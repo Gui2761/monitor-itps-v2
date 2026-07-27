@@ -11,9 +11,6 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 import requests 
 
 # --- CONFIGURAÇÕES ---
@@ -167,17 +164,10 @@ def verificar_busca():
     driver = get_driver()
     try:
         driver.get(URL_BUSCA)
-        print("Aguardando carregamento da página...")
+        print("Aguardando resultados (20s)...")
+        time.sleep(20)
         
-        # ESPERA INTELIGENTE: Aguarda até 30 segundos para o 'body' estar carregado
-        WebDriverWait(driver, 30).until(
-            EC.presence_of_element_located((By.TAG_NAME, "body"))
-        )
-        
-        # Fôlego extra para o site renderizar o texto após o body aparecer
-        time.sleep(3) 
-        
-        texto_pagina = driver.find_element(by=By.TAG_NAME, value="body").text
+        texto_pagina = driver.find_element(by="tag name", value="body").text
         linhas = texto_pagina.split('\n')
         encontrou_algo = False
         
@@ -190,23 +180,21 @@ def verificar_busca():
                 
                 print(f"Analisando: {chave_unica}...")
                 
+                # NOVO REPOSITÓRIO = MEMÓRIA VAZIA = VAI ENVIAR A PRIMEIRA VEZ E DEPOIS LEMBRAR
                 if ja_avisei_sobre_essa_edicao(chave_unica):
                     print("-> Já avisei. Ignorando.")
+                    edicoes_processadas_agora.append(chave_unica)
                 else:
                     print("-> NOVIDADE! Enviando alerta...")
                     enviar_email(linha, chave_unica) 
                     marcar_como_enviado(chave_unica, linha) 
+                    edicoes_processadas_agora.append(chave_unica)
                     encontrou_algo = True
-                
-                edicoes_processadas_agora.append(chave_unica)
         
-        if not encontrou_algo: 
-            print("Nenhum resultado NOVO encontrado.")
+        if not encontrou_algo: print("Nenhum resultado NOVO encontrado.")
 
-    except Exception as e: 
-        print(f"Erro Selenium: {e}")
-    finally: 
-        driver.quit()
+    except Exception as e: print(f"Erro Selenium: {e}")
+    finally: driver.quit()
 
 if __name__ == "__main__":
     verificar_busca()
