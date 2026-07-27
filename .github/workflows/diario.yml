@@ -2,11 +2,10 @@ name: Monitoramento Diário ITPS
 
 on:
   schedule:
-    # Os números 1-5 no final garantem que vai rodar apenas de Segunda a Sexta
-    - cron: '30 9 * * 1-5'   # 06:30 no Brasil
-    - cron: '0 13 * * 1-5'   # 10:00 no Brasil
-    - cron: '15 16 * * 1-5'  # 13:15 no Brasil
-    - cron: '0 19 * * 1-5'   # 16:00 no Brasil
+    - cron: '30 9 * * *'   # 06:30 no Brasil
+    - cron: '0 13 * * *'   # 10:00 no Brasil
+    - cron: '15 16 * * *'  # 13:15 no Brasil
+    - cron: '0 19 * * *'
   workflow_dispatch: # Permite rodar manualmente clicando no botão
 
 jobs:
@@ -18,12 +17,12 @@ jobs:
     
     steps:
       - name: Baixar código
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Instalar Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.9'
 
       - name: Instalar Dependências
         run: |
